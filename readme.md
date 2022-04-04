@@ -5,29 +5,23 @@ This python-tool provides a simple solution to get a schedule for the rogers [su
 ## Run
 ```
 docker run -d \
-	--name=xteve_lazystream \
-	-p 34400:34400 \
-	-e TZ="America/Los_Angeles" \
-	--env-file=.env \
-	--log-opt max-size=10m \
-	--log-opt max-file=3 \
-	-v /mnt/user/appdata/xteve/.xteve:/xteve:rw \
-	-v /mnt/user/appdata/xteve/config/:/config:rw \
-	-v /mnt/user/appdata/xteve/guide2go/:/guide2go:rw \
-	-v /mnt/user/appdata/xteve/playlists/:/playlists:rw \
-	-v /tmp/xteve/:/tmp/xteve:rw \
-	taylorbourne/xteve_lazystream
+	--name=rogers2xmltv \
+	-e TZ="Europe/Zurich" \
+	-v /mnt/user/appdata/roger2xmltv:/data:rw \
+	abuhamsa/rogers2xmltv:latest
 ```
 ## Setup
 ### Environment Variables
+NOT FINISHED YET
 You can change the some defaults be setting environment variables.
 `sample.env` should be renamed to `.env` and supplied through the `--env-file` docker run option. The `.env` file can also be picked up if using this in a `docker compose` setup.
 
 ### Cronjob
+NOT IMPLEMENTED YET
 The default schedule for the cronjob is set to run every hour.
 You can set your own schedule by renaming the `sample_cron.txt` file in the `/config` volume to `cron.txt` and editing the schedule. Make sure to restart your container to take effect.
 
 #### Testing cronjob function
-
+NOT IMPLEMENTED YET
 Simply run the cronjob file inside the Docker container  
 `docker exec -it dockername ./cronjob.sh`
