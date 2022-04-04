@@ -7,7 +7,7 @@ This python-tool provides a simple solution to get a schedule for the rogers [su
 docker run -d \
 	--name=rogers2xmltv \
 	-e TZ="Europe/Zurich" \
-	-v /mnt/user/appdata/roger2xmltv:/data:rw \
+	-v /mnt/user/appdata/rogers2xmltv:/data:rw \
 	abuhamsa/rogers2xmltv:latest
 ```
 ## Setup
