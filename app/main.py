@@ -71,10 +71,10 @@ def get_nhl_games(data,tz,date_range):
 def main():
     
     # Setting ENV
-    use_static_channels=os.environ['use_static_channels']
-    date_range=os.environ['date_range']
-    channel_source=os.environ['channel_source']
-    icon=os.environ['icon']
+    use_static_channels=os.environ['USE_STATIC_CHANNELS']
+    date_range=os.environ['DATE_RANGE']
+    channel_source=os.environ['CHANNEL_SOURCE']
+    icon=os.environ['ICON']
     tz=os.environ['TZ']
 
 
