@@ -13,7 +13,7 @@ docker run \
 -e USE_STATIC_CHANNELS="yes" \
 -v /mnt/user/appdata/rogers2xmltv:/data:rw \
 --name=rogers2xmltv \
-rogers2xmltv:latest
+abuhamsa/rogers2xmltv:latest
 ```
 ## Setup
 ### Environment Variables
