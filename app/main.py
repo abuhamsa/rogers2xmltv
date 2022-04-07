@@ -27,14 +27,16 @@ def write_xmltv_file (xmlchannels, xmlprogrammes):
 def xmltv_programme (games,channel_source):
     programmes = ''
     for game in games:
-        endtime = datetime.datetime.strptime(game['sta_tim_et'],"%Y%m%d%H%M%S %z")+ timedelta(hours=4)
-        endtime = endtime.strftime("%Y%m%d%H%M%S %z")
+        id = game[channel_source]
+        if id !='N/A':
+            endtime = datetime.datetime.strptime(game['sta_tim_et'],"%Y%m%d%H%M%S %z")+ timedelta(hours=4)
+            endtime = endtime.strftime("%Y%m%d%H%M%S %z")
 
-        programmes += '<programme channel="'+game[channel_source]+'" start=\"'+game['sta_tim_et']+'" stop="'+endtime+'">\n'
-        programmes += '<title lang="en">'+game['hom']+' vs '+game['awa']+'</title>\n'
-        programmes += '<desc lang="en">Watch '+game['hom']+' take on '+game['awa']+'</desc>\n'
-        programmes += '<category lang="en">Sports</category>'
-        programmes += '<icon height="" src="" width=""/>\n<credits/>\n<video/>\n<date/>\n</programme>\n'
+            programmes += '<programme channel="'+game[channel_source]+'" start=\"'+game['sta_tim_et']+'" stop="'+endtime+'">\n'
+            programmes += '<title lang="en">'+game['hom']+' vs '+game['awa']+'</title>\n'
+            programmes += '<desc lang="en">Watch '+game['hom']+' take on '+game['awa']+'</desc>\n'
+            programmes += '<category lang="en">Sports</category>'
+            programmes += '<icon height="" src="" width=""/>\n<credits/>\n<video/>\n<date/>\n</programme>\n'
     return programmes    
 
 def xmltv_channels (channels,icon):
