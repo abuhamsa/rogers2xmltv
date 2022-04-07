@@ -12,7 +12,7 @@ docker run \
 -e CHANNEL_SOURCE="rog_ott_sdh_ch" \
 -e USE_STATIC_CHANNELS="yes" \
 -v `pwd`/cron/rogers2xmltv.cron:/etc/crontab \
--v /mnt/c/DOCKER_APPDATA/rogers2xmltv:/data:rw \
+-v /mnt/user/appdata/rogers2xmltv:/data:rw \
 --name=rogers2xmltv \
 abuhamsa/rogers2xmltv:latest
 ```
