@@ -1,54 +1,10 @@
 #!/bin/bash
-set -e
-set -f
+# make the environment variable accessible to cron
+env >> /etc/environment
 
-USERNAME="rogers2xmltv"
+# load the cronjob to the crontab
+crontab /etc/crontab
 
-if [[ -z "${TZ}" ]]; then
-  TIMEZONE="Europe/Zurich"
-fi
-
-if [[ -z "${GROUP_ID}" ]]; then
-  GROUP_ID="100"
-fi
-
-if [[ -z "${USER_ID}" ]]; then
-  USER_ID="99"
-fi
-
-if [[ -z "${FREQUENCY}" ]]; then
-  FREQUENCY="0 2 * * *"
-fi
-
-ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime
-dpkg-reconfigure -f noninteractive tzdata
-
-echo "${USERNAME}:x:${USER_ID}:${GROUP_ID}:${USERNAME}:/:/bin/bash" >> /etc/passwd
-echo "${USERNAME}:!::0:::::" >> /etc/shadow
-
-if ! getent group ${GROUP_ID}; then
-  echo "${USERNAME}:x:${GROUP_ID}:" >> /etc/group
-fi
-
-chown -R ${USER_ID}:${GROUP_ID} /app
-chown -R ${USER_ID}:${GROUP_ID} /tmp
-
-chmod -R 775 /app
-chmod -R 777 /tmp
-
-# Workaround to set ENVs to /etc/environment
-echo "TZ=$TZ" >> /etc/environment
-echo "DATE_RANGE=$DATE_RANGE" >> /etc/environment
-echo "FREQUENCY=$FREQUENCY" >> /etc/environment
-echo "ICON=$ICON" >> /etc/environment
-echo "USE_STATIC_CHANNELS=$USE_STATIC_CHANNELS" >> /etc/environment
-echo "CHANNEL_SOURCE=$CHANNEL_SOURCE" >> /etc/environment
-
-
-sed -i "s/\${FREQUENCY}/${FREQUENCY}/" /etc/rogers2xmltv.cron
-sed -i "s/\${USERNAME}/${USERNAME}/" /etc/rogers2xmltv.cron
-crontab -u root /etc/rogers2xmltv.cron
-
-
-
-exec /usr/sbin/cron -f -l 0
+# execute CMD
+echo "$@"
+exec "$@"

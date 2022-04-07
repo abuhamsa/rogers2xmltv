@@ -17,7 +17,7 @@ def convert_datetime_timezone(dt, tz1, tz2):
 
 def write_xmltv_file (xmlchannels, xmlprogrammes):
    f = open("/data/rogers2xmltv.xml", "w") 
-   f.write('<tv generator-info-name="rogers_ssp_xmltv" source-info-name="Rogers SSP 2 XMLTV 0.1">')
+   f.write('<tv generator-info-name="rogers2xmltv" source-info-name="rogers2xmltv by abuhamsa">')
    f.write(xmlchannels)
    f.write(xmlprogrammes)
    f.write('</tv>')
@@ -77,21 +77,30 @@ def main():
     icon=os.environ['ICON']
     tz=os.environ['TZ']
 
-
+    # URL of the API
     url = "https://rogerstv.com/api/ssp?f=schedule"
 
+    # HTTP Stuff
     payload={}
     headers = {}
 
     response = requests.request("GET", url, headers=headers, data=payload)
     data = response.json()
+
+    # Extract NHL games out of the response
     games = get_nhl_games(data,tz,date_range)
+    # Extract channels out of NHL games
     channels=get_channels(games,channel_source)
+
+    # Generate static XMLTV-channels based on https://www.rogers.com/customer/support/article/nhl-centre-ice
     if use_static_channels == 'yes':
         xmlchannels=static_xmltv_channels(icon)
+    # Generate XMLTV-channels from NHL games
     else :    
         xmlchannels=xmltv_channels(channels,icon)
+    # Generate XMLTV-programme from NHL games    
     xmlprogrammes=xmltv_programme(games,channel_source)
+    # Generate XMLTV-file (putting all together)
     write_xmltv_file(xmlchannels,xmlprogrammes)
     
 if __name__ == "__main__":
