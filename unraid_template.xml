@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>rogers2xmltv</Name>
+  <Repository>abuhamsa/rogers2xmltv</Repository>
+  <Registry>https://hub.docker.com/r/abuhamsa/rogers2xmltv/</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://hub.docker.com/r/abuhamsa/rogers2xmltv/</Support>
+  <Project>https://github.com/abuhamsa/rogers2xmltv</Project>
+  <Overview>This python-tool provides a simple solution to get a schedule for the rogers super sports pak and convert it to the xmltv-format.</Overview>
+  <Category>MediaApp:Video Status:Beta</Category>
+  <TemplateURL/>
+  <Icon>https://s.yimg.com/dh/ap/rogers/portal/desktop/images/rogers_open_graph_icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1634371481</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Description>This python-tool provides a simple solution to get a schedule for the rogers super sports pak and convert it to the xmltv-format.</Description>
+  <Networking>
+    <Mode>bridge</Mode>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/appdata/rogers2xmltv/data</HostDir>
+      <ContainerDir>/data/</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/rogers2xmltv/rogers2xmltv.cron</HostDir>
+      <ContainerDir>/etc/crontab</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment>
+    <Variable>
+      <Value>Europe/Zurich</Value>
+      <Name>TZ</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>yes</Value>
+      <Name>use_xTeveAPI</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>21</Value>
+      <Name>DATE_RANGE</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>https://picon-13398.kxcdn.com/rogersca.jpg</Value>
+      <Name>ICON</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>rog_ott_sdh_ch</Value>
+      <Name>CHANNEL_SOURCE</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>yes</Value>
+      <Name>USE_STATIC_CHANNELS</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value/>
+      <Name>xteveURL</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>yes</Value>
+      <Name>use_plexAPI</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value/>
+      <Name>plexUpdateURL</Name>
+      <Mode/>
+    </Variable>
+
+  </Environment>
+  <Labels/>
+  <Config Name="TZ" Target="TZ" Default="" Mode="" Description="Timezone" Type="Variable" Display="always" Required="false" Mask="false">Europe/Zurich</Config>
+  <Config Name="Path" Target="/data" Default="" Mode="rw" Description="Container Path: /data" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rogers2xmltv/data</Config>
+  <Config Name="Path" Target="/etc/crontab" Default="" Mode="rw" Description="Container Path: /etc/crontab" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rogers2xmltv/rogers2xmltv.cron</Config>
+  <Config Name="use_xTeveAPI" Target="use_xTeveAPI" Default="yes" Mode="" Description="Container Variable: use_xTeveAPI" Type="Variable" Display="always" Required="false" Mask="false">yes</Config>
+  <Config Name="DATE_RANGE" Target="DATE_RANGE" Default="21" Mode="" Description="Container Variable: DATE_RANGE" Type="Variable" Display="always" Required="false" Mask="false">21</Config>
+  <Config Name="ICON" Target="ICON" Default="https://picon-13398.kxcdn.com/rogersca.jpg" Mode="" Description="Container Variable: ICON" Type="Variable" Display="always" Required="false" Mask="false">https://picon-13398.kxcdn.com/rogersca.jpg<Config/>
+  <Config Name="CHANNEL_SOURCE" Target="CHANNEL_SOURCE" Default="rog_ott_sdh_ch" Mode="" Description="Container Variable: CHANNEL_SOURCE" Type="Variable" Display="always" Required="false" Mask="false">rog_ott_sdh_ch</Config>
+  <Config Name="USE_STATIC_CHANNELS" Target="USE_STATIC_CHANNELS" Default="yes" Mode="" Description="Container Variable: USE_STATIC_CHANNELS" Type="Variable" Display="always" Required="false" Mask="false">yes</Config>
+  <Config Name="xteveURL" Target="xteveURL" Default="" Mode="" Description="Container Variable: xteveURL" Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="use_plexAPI" Target="use_plexAPI" Default="no" Mode="" Description="Container Variable: use_plexAPI" Type="Variable" Display="always" Required="false" Mask="false"/>no</Config>
+  <Config Name="plexUpdateURL" Target="plexUpdateURL" Default="" Mode="" Description="Container Variable: plexUpdateURL" Type="Variable" Display="always" Required="false" Mask="false"/>
+</Container>
