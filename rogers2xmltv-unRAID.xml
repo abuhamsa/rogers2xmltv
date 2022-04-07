@@ -89,7 +89,7 @@
   <Config Name="Path" Target="/etc/crontab" Default="" Mode="rw" Description="Container Path: /etc/crontab" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rogers2xmltv/rogers2xmltv.cron</Config>
   <Config Name="use_xTeveAPI" Target="use_xTeveAPI" Default="yes" Mode="" Description="Container Variable: use_xTeveAPI" Type="Variable" Display="always" Required="false" Mask="false">yes</Config>
   <Config Name="DATE_RANGE" Target="DATE_RANGE" Default="21" Mode="" Description="Container Variable: DATE_RANGE" Type="Variable" Display="always" Required="false" Mask="false">21</Config>
-  <Config Name="ICON" Target="ICON" Default="https://picon-13398.kxcdn.com/rogersca.jpg" Mode="" Description="Container Variable: ICON" Type="Variable" Display="always" Required="false" Mask="false">https://picon-13398.kxcdn.com/rogersca.jpg<Config/>
+  <Config Name="ICON" Target="ICON" Default="https://picon-13398.kxcdn.com/rogersca.jpg" Mode="" Description="Container Variable: ICON" Type="Variable" Display="always" Required="false" Mask="false">https://picon-13398.kxcdn.com/rogersca.jpg</Config>
   <Config Name="CHANNEL_SOURCE" Target="CHANNEL_SOURCE" Default="rog_ott_sdh_ch" Mode="" Description="Container Variable: CHANNEL_SOURCE" Type="Variable" Display="always" Required="false" Mask="false">rog_ott_sdh_ch</Config>
   <Config Name="USE_STATIC_CHANNELS" Target="USE_STATIC_CHANNELS" Default="yes" Mode="" Description="Container Variable: USE_STATIC_CHANNELS" Type="Variable" Display="always" Required="false" Mask="false">yes</Config>
   <Config Name="xteveURL" Target="xteveURL" Default="" Mode="" Description="Container Variable: xteveURL" Type="Variable" Display="always" Required="false" Mask="false"/>
