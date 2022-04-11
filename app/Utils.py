@@ -3,16 +3,66 @@ from datetime import date
 from datetime import timedelta
 import pytz
 import requests
+import logging
+import sys
 
-
+class Teamnamer:
+    def extend_teamnames (cityname):
+        switcher = {
+        "Boston": "Boston Bruins",
+        "Buffalo": "Buffalo Sabres",
+        "Detroit": "Detroit Red Wings",
+        "Florida": "Florida Panthers",
+        "Montreal": "Canadiens de Montréal",
+        "Ottawa": "Ottawa Senators",
+        "Tampa Bay ": "Tampa Bay Lightning",
+        "Toronto": "Toronto Maple Leafs",
+        "Carolina": "Carolina Hurricanes",
+        "Columbus": "Columbus Blue Jackets",
+        "New Jersey": "New Jersey Devils",
+        "Philadelphia": "Philadelphia Flyers",
+        "Pittsburgh": "Pittsburgh Penguins",
+        "Washington": "Washington Capitals",
+        "Arizona": "Arizona Coyotes",
+        "Chicago": "Chicago Blackhawks",
+        "Colorado": "Colorado Avalanche",
+        "Dallas": "Dallas Stars",
+        "Minnesota": "Minnesota Wild",
+        "Nashville": "Nashville Predators",
+        "St. Louis": "St. Louis Blues",
+        "Winnipeg": "Winnipeg Jets",
+        "Anaheim": "Anaheim Ducks",
+        "Calgary": "Calgary Flames",
+        "Edmonton": "Edmonton Oilers",
+        "Los Angeles": "Los Angeles Kings",
+        "San Jose": "San Jose Sharks",
+        "Seattle": "Seattle Kraken",
+        "Vancouver": "Vancouver Canucks",
+        "Las Vegas": "Vegas Golden Knights",
+        "NY Rangers": "New York Rangers",
+        "NY Islanders": "New York Islanders"
+        }
+        return switcher.get(cityname, cityname)
 class Loader:
     def __init__(self, url,file_path):
+        # Creating and Configuring Logger
+        logger = logging.getLogger()
+        fileHandler = logging.FileHandler("rogers2xmltv.log")
+        streamHandler = logging.StreamHandler(sys.stdout)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        streamHandler.setFormatter(formatter)
+        fileHandler.setFormatter(formatter)
+        logger.addHandler(streamHandler)
+        logger.addHandler(fileHandler)
+        logger.setLevel(logging.INFO)
+
         # HTTP Stuff
         payload={}
         headers = {}
-
+        logger.debug("Start download JSON")
         response = requests.request("GET", url, headers=headers, data=payload)
         self.data = response.json()
+        logger.debug("End download JSON")
         self.file_path = file_path
 
     def convert_datetime_timezone(self,dt, tz1, tz2):
