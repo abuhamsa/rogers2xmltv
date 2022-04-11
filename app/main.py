@@ -23,7 +23,7 @@ def static_xmltv_channels (icon):
 
 def main():
     
-    bol_docker = "no"
+    bol_docker = "yes"
 
     # Setting ENV
     if bol_docker == "yes":
