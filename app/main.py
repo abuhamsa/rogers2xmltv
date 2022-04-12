@@ -13,7 +13,11 @@ from Objects import MyChannel
 
 def main():
 
-    bol_docker = os.environ['DOCKER_MODE']
+    if "DOCKER_MODE" in os.environ:
+        bol_docker = os.environ['DOCKER_MODE']
+    else:
+        bol_docker = "no"
+
     file_path=""
 
     # Setting ENV
@@ -98,6 +102,7 @@ def main():
 
     # Generate XMLTV-file (putting all together)
     logger.info("Start writing XMLTV-file")
+    #loader.write_xmltv_file(mychannels,mygames)
     loader.write_xmltv_file(mychannels,mygames)
     logger.info("Finished writing XMLTV-file")
 

@@ -12,11 +12,11 @@ class MyGame:
     self.away = Teamnamer.extend_teamnames(game['awa'])
  
   def print_xmltvprogramme (mygame):
-    programme = '<programme channel="'+mygame.channel+'" start=\"'+mygame.start+'" stop="'+mygame.end+'">\n'
-    programme += '<title lang="en">'+mygame.home+' vs '+mygame.away+'</title>\n'
-    programme += '<desc lang="en">Watch the '+mygame.home+' take on '+mygame.away+'</desc>\n'
+    programme = '<programme channel="'+mygame.channel+'" start=\"'+mygame.start+'" stop="'+mygame.end+'">'
+    programme += '<title lang="en">'+mygame.home+' vs '+mygame.away+'</title>'
+    programme += '<desc lang="en">Watch the '+mygame.home+' take on '+mygame.away+'</desc>'
     programme += '<category lang="en">Sports</category>'
-    programme += '<icon height="" src="" width=""/>\n<credits/>\n<video/>\n<date/>\n</programme>\n'
+    programme += '<icon height="" src="" width=""/><credits/><video/><date/></programme>'
     return programme
 
 class MyChannel:
@@ -25,7 +25,7 @@ class MyChannel:
     self.icon = icon
   
   def print_xmltvchannel (mychannel):
-    channel ='<channel id=\"'+mychannel.id+'\">\n<display-name>Rogers: HD SUPER SPORTS CH '+mychannel.id+' CA</display-name>\n<icon src="'+mychannel.icon+'"></icon>\n</channel>\n'
+    channel ='<channel id=\"'+mychannel.id+'\"><display-name>Rogers: HD SUPER SPORTS CH '+mychannel.id+' CA</display-name><icon src="'+mychannel.icon+'"></icon></channel>'
     return channel
 
 

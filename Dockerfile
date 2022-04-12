@@ -30,7 +30,7 @@ RUN which cron \
 RUN chmod +x /usr/local/sbin/entrypoint \
 && chmod +x /cronjob.sh
 # Install pip depenencies
-RUN pip3 install requests pytz
+RUN pip3 install requests pytz lxml
 
 # COPY crontab
 COPY cron/rogers2xmltv_base.cron /etc/crontab
