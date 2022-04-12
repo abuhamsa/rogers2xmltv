@@ -5,6 +5,7 @@ import pytz
 import requests
 import logging
 import sys
+from lxml import etree
 
 class Teamnamer:
     def extend_teamnames (cityname):
@@ -45,24 +46,12 @@ class Teamnamer:
         return switcher.get(cityname, cityname)
 class Loader:
     def __init__(self, url,file_path):
-        # Creating and Configuring Logger
-        logger = logging.getLogger()
-        fileHandler = logging.FileHandler("rogers2xmltv.log")
-        streamHandler = logging.StreamHandler(sys.stdout)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        streamHandler.setFormatter(formatter)
-        fileHandler.setFormatter(formatter)
-        logger.addHandler(streamHandler)
-        logger.addHandler(fileHandler)
-        logger.setLevel(logging.INFO)
-
+       
         # HTTP Stuff
         payload={}
         headers = {}
-        logger.debug("Start download JSON")
         response = requests.request("GET", url, headers=headers, data=payload)
         self.data = response.json()
-        logger.debug("End download JSON")
         self.file_path = file_path
 
     def convert_datetime_timezone(self,dt, tz1, tz2):
@@ -97,7 +86,7 @@ class Loader:
                 channels.append(id)
         return channels 
 
-    def write_xmltv_file (self,mychannels, mygames):
+    def old_write_xmltv_file (self,mychannels, mygames):
         f = open(self.file_path, "w") 
         f.write('<tv generator-info-name="rogers2xmltv" source-info-name="rogers2xmltv by abuhamsa">')
         for mychannel in mychannels:
@@ -105,5 +94,15 @@ class Loader:
         for mygame in mygames:
             f.write(mygame.print_xmltvprogramme())
         f.write('</tv>')
-        f.close       
-  
+        f.close
+
+    def write_xmltv_file (self,mychannels, mygames):
+        str_xml ='<tv generator-info-name="rogers2xmltv" source-info-name="rogers2xmltv by abuhamsa">'
+        for mychannel in mychannels:
+            str_xml+=mychannel.print_xmltvchannel()
+        for mygame in mygames:
+            str_xml+=mygame.print_xmltvprogramme()
+        str_xml+='</tv>'
+        root = etree.fromstring(str_xml)
+        et = etree.ElementTree(root)
+        et.write(self.file_path,pretty_print=True)
