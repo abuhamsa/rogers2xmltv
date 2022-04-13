@@ -25,7 +25,7 @@ class MyChannel:
     self.icon = icon
   
   def print_xmltvchannel (mychannel):
-    channel ='<channel id=\"'+mychannel.id+'\"><display-name>Rogers: HD SUPER SPORTS CH '+mychannel.id+' CA</display-name><icon src="'+mychannel.icon+'"></icon></channel>'
+    channel ='<channel id="'+mychannel.id+'"><display-name>Rogers: HD SUPER SPORTS CH '+mychannel.id+' CA</display-name><icon src="'+mychannel.icon+'"></icon></channel>'
     return channel
 
 
