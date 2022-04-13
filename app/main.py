@@ -16,16 +16,39 @@ from Objects import MyVar
 
 app = FastAPI()
 
+# Setting the Environment Variables
+if "DOCKER_MODE" in os.environ:
+    bol_docker = os.environ['DOCKER_MODE']
+else:
+    bol_docker = "no"
+
+if bol_docker == "yes":
+    use_static_channels=os.environ['USE_STATIC_CHANNELS']
+    date_range=os.environ['DATE_RANGE']
+    channel_source=os.environ['CHANNEL_SOURCE']
+    icon=os.environ['ICON']
+    tz=os.environ['TZ']
+    file_path="/data/"
+    file_path_xml=file_path+"rogers2xmltv.xml"
+else:
+    use_static_channels="yes"
+    date_range="1"
+    channel_source="rog_ott_sdh_ch"
+    icon="https://picon-13398.kxcdn.com/rogersca.jpg"
+    tz="Europe/Zurich"
+    file_path=""
+    file_path_xml="rogers2xmltv.xml"
+
 # Creating and Configuring Logger
 logger = logging.getLogger()
-fileHandler = logging.FileHandler("rogers2xmltv.log")
+fileHandler = logging.FileHandler(file_path+"rogers2xmltv.log")
 streamHandler = logging.StreamHandler(sys.stdout)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 streamHandler.setFormatter(formatter)
 fileHandler.setFormatter(formatter)
 logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
-logger.setLevel(logging.INFO)  
+logger.setLevel(logging.INFO)
 
 @app.get("/xmltv/")
 async def xmltv_get(use_static_channels: str="yes",date_range: str="7",channel_source: str="rog_ott_sdh_ch",icon: str="https://picon-13398.kxcdn.com/rogersca.jpg",tz: str="Europe/Zurich"):
@@ -39,17 +62,14 @@ async def xmltv_post(myvar: MyVar):
     return Response(content=main(myvar), media_type="application/xml")
 
 def main(api_variables):
-    file_path="/data/"
-    file_path_xml="rogers2xmltv.xml"
-    if "DOCKER_MODE" in os.environ:
-        bol_docker = os.environ['DOCKER_MODE']
-    else:
-        bol_docker = "no"
-
+    # TODO Fix this mess with the evirnoment
     if api_variables is None:
         logger.info("NO API MODE")
+        if "DOCKER_MODE" in os.environ:
+            bol_docker = os.environ['DOCKER_MODE']
+        else:
+            bol_docker = "no"
 
-        # Setting ENV
         if bol_docker == "yes":
             use_static_channels=os.environ['USE_STATIC_CHANNELS']
             date_range=os.environ['DATE_RANGE']
@@ -74,9 +94,6 @@ def main(api_variables):
         icon=api_variables.icon
         tz=api_variables.tz     
        
-
-  
-    
     logger.info("Docker mode: "+str(bol_docker)) 
 
     envs =  "Environment variables: \n"
