@@ -106,3 +106,13 @@ class Loader:
         root = etree.fromstring(str_xml)
         et = etree.ElementTree(root)
         et.write(self.file_path,pretty_print=True)
+
+    def api_xmltv_file (self,mychannels, mygames):
+        str_xml ='<tv generator-info-name="rogers2xmltv" source-info-name="rogers2xmltv by abuhamsa">'
+        for mychannel in mychannels:
+            str_xml+=mychannel.print_xmltvchannel()
+        for mygame in mygames:
+            str_xml+=mygame.print_xmltvprogramme()
+        str_xml+='</tv>'
+        root = etree.fromstring(str_xml)
+        return etree.tostring(root,pretty_print=True)        

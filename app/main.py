@@ -11,44 +11,71 @@ from Objects import MyGame
 from Utils import Loader
 from Objects import MyChannel 
 
-def main():
+from fastapi import FastAPI, Response
+from Objects import MyVar
 
+app = FastAPI()
+
+# Creating and Configuring Logger
+logger = logging.getLogger()
+fileHandler = logging.FileHandler("rogers2xmltv.log")
+streamHandler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+streamHandler.setFormatter(formatter)
+fileHandler.setFormatter(formatter)
+logger.addHandler(streamHandler)
+logger.addHandler(fileHandler)
+logger.setLevel(logging.INFO)  
+
+@app.get("/xmltv/")
+async def xmltv_get(use_static_channels: str="yes",date_range: str="7",channel_source: str="rog_ott_sdh_ch",icon: str="https://picon-13398.kxcdn.com/rogersca.jpg",tz: str="Europe/Zurich"):
+    #myvar = MyVar(use_static_channels,date_range,channel_source,icon,tz)
+    myvar = MyVar(use_static_channels=use_static_channels,date_range=date_range,channel_source=channel_source,icon=icon,tz=tz)
+    return Response(content=main(myvar), media_type="application/xml")
+
+# MyVars
+@app.post("/xmltv/")
+async def xmltv_post(myvar: MyVar):
+    return Response(content=main(myvar), media_type="application/xml")
+
+def main(api_variables):
+    file_path="/data/"
+    file_path_xml="rogers2xmltv.xml"
     if "DOCKER_MODE" in os.environ:
         bol_docker = os.environ['DOCKER_MODE']
     else:
         bol_docker = "no"
 
-    file_path=""
+    if api_variables is None:
+        logger.info("NO API MODE")
 
-    # Setting ENV
-    if bol_docker == "yes":
-        use_static_channels=os.environ['USE_STATIC_CHANNELS']
-        date_range=os.environ['DATE_RANGE']
-        channel_source=os.environ['CHANNEL_SOURCE']
-        icon=os.environ['ICON']
-        tz=os.environ['TZ']
-        file_path="/data/"
-        file_path_xml=file_path+"rogers2xmltv.xml"
+        # Setting ENV
+        if bol_docker == "yes":
+            use_static_channels=os.environ['USE_STATIC_CHANNELS']
+            date_range=os.environ['DATE_RANGE']
+            channel_source=os.environ['CHANNEL_SOURCE']
+            icon=os.environ['ICON']
+            tz=os.environ['TZ']
+            file_path="/data/"
+            file_path_xml=file_path+"rogers2xmltv.xml"
+        else:
+            use_static_channels="yes"
+            date_range="1"
+            channel_source="rog_ott_sdh_ch"
+            icon="https://picon-13398.kxcdn.com/rogersca.jpg"
+            tz="Europe/Zurich"
+            file_path=""
+            file_path_xml="rogers2xmltv.xml"
     else:
-        use_static_channels="yes"
-        date_range="1"
-        channel_source="rog_ott_sdh_ch"
-        icon="https://picon-13398.kxcdn.com/rogersca.jpg"
-        tz="Europe/Zurich"
-        file_path=""
-        file_path_xml="rogers2xmltv.xml"
+        logger.info("API MODE")
+        use_static_channels=api_variables.use_static_channels
+        date_range=api_variables.date_range
+        channel_source=api_variables.channel_source
+        icon=api_variables.icon
+        tz=api_variables.tz     
        
 
-    # Creating and Configuring Logger
-    logger = logging.getLogger()
-    fileHandler = logging.FileHandler(file_path+"rogers2xmltv.log")
-    streamHandler = logging.StreamHandler(sys.stdout)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    streamHandler.setFormatter(formatter)
-    fileHandler.setFormatter(formatter)
-    logger.addHandler(streamHandler)
-    logger.addHandler(fileHandler)
-    logger.setLevel(logging.INFO)    
+  
     
     logger.info("Docker mode: "+str(bol_docker)) 
 
@@ -101,10 +128,14 @@ def main():
         mygames.append(mygame)
 
     # Generate XMLTV-file (putting all together)
-    logger.info("Start writing XMLTV-file")
+    
     #loader.write_xmltv_file(mychannels,mygames)
-    loader.write_xmltv_file(mychannels,mygames)
-    logger.info("Finished writing XMLTV-file")
+    if api_variables is None:
+        logger.info("Start writing XMLTV-file")
+        loader.write_xmltv_file(mychannels,mygames)
+        logger.info("Finished writing XMLTV-file")
+    else:    
+        return loader.api_xmltv_file(mychannels,mygames)
 
 if __name__ == "__main__":
-    main()
+    main(None)
