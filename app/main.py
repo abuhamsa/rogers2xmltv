@@ -1,41 +1,43 @@
-import datetime
-import requests
-import pytz
+from fastapi import FastAPI, Response, status
+
+from Objects import MyVar
+from Objects import MyGame
+from Objects import MyChannel 
+from Utils import Loader
+
 import os
 import logging
 import sys
 
-from datetime import date
-from datetime import timedelta
-from Objects import MyGame
-from Utils import Loader
-from Objects import MyChannel 
-
-from fastapi import FastAPI, Response
-from Objects import MyVar
-
+# Create FastAPI Object
 app = FastAPI()
 
 # Setting the Environment Variables
-if "DOCKER_MODE" in os.environ:
-    bol_docker = os.environ['DOCKER_MODE']
-else:
-    bol_docker = "no"
+DOCKER_MODE = os.getenv('DOCKER_MODE', 'False').lower() == 'true'
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
+SSL_CHECK = False #Only Setting cause of proxy problems
 
-if bol_docker == "yes":
-    use_static_channels=os.environ['USE_STATIC_CHANNELS']
-    date_range=os.environ['DATE_RANGE']
-    channel_source=os.environ['CHANNEL_SOURCE']
-    icon=os.environ['ICON']
-    tz=os.environ['TZ']
+# If in DOCKER_MODE take ENVs from Dockerfile and/or env-parameters
+if DOCKER_MODE:
+    USE_STATIC_CHANNELS=os.getenv('USE_STATIC_CHANNELS', 'False').lower() == 'true'
+    DATE_RANGE=os.environ['DATE_RANGE']
+    CHANNEL_SOURCE=os.environ['CHANNEL_SOURCE']
+    ICON=os.environ['ICON']
+    TZ=os.environ['TZ']
+    API_MODE=os.getenv('API_MODE', 'False').lower() == 'true'
+    URL = os.environ['URL']
     file_path="/data/"
     file_path_xml=file_path+"rogers2xmltv.xml"
+
+# else use some defaults, most likely for local debugging    
 else:
-    use_static_channels="yes"
-    date_range="1"
-    channel_source="rog_ott_sdh_ch"
-    icon="https://picon-13398.kxcdn.com/rogersca.jpg"
-    tz="Europe/Zurich"
+    USE_STATIC_CHANNELS=True
+    DATE_RANGE="1"
+    CHANNEL_SOURCE="rog_ott_sdh_ch"
+    ICON="https://picon-13398.kxcdn.com/rogersca.jpg"
+    TZ="Europe/Zurich"
+    API_MODE=True
+    URL = "https://rogerstv.com/api/ssp?f=schedule"
     file_path=""
     file_path_xml="rogers2xmltv.xml"
 
@@ -48,71 +50,62 @@ streamHandler.setFormatter(formatter)
 fileHandler.setFormatter(formatter)
 logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
-logger.setLevel(logging.INFO)
+logger.setLevel(level=LOG_LEVEL)
 
+
+#### Here is the API-Stuff for FastAPI
+
+# GET Method for getting an xml-reponse
+# you can set some parameters. if not it takes defaults
 @app.get("/xmltv/")
-async def xmltv_get(use_static_channels: str="yes",date_range: str="7",channel_source: str="rog_ott_sdh_ch",icon: str="https://picon-13398.kxcdn.com/rogersca.jpg",tz: str="Europe/Zurich"):
-    #myvar = MyVar(use_static_channels,date_range,channel_source,icon,tz)
+async def xmltv_get(use_static_channels: bool=True,date_range: str="7",channel_source: str="rog_ott_sdh_ch",icon: str="https://picon-13398.kxcdn.com/rogersca.jpg",tz: str="Europe/Zurich"):
     myvar = MyVar(use_static_channels=use_static_channels,date_range=date_range,channel_source=channel_source,icon=icon,tz=tz)
-    return Response(content=main(myvar), media_type="application/xml")
+    return Response(content=main(myvar), media_type="application/xml") 
 
-# MyVars
+# POST Method for getting an xml-reponse
+# you can set some parameters. if not it takes defaults
 @app.post("/xmltv/")
 async def xmltv_post(myvar: MyVar):
     return Response(content=main(myvar), media_type="application/xml")
 
-def main(api_variables):
-    # TODO Fix this mess with the evirnoment
-    if api_variables is None:
-        logger.info("NO API MODE")
-        if "DOCKER_MODE" in os.environ:
-            bol_docker = os.environ['DOCKER_MODE']
-        else:
-            bol_docker = "no"
+# GET for root Path to retrun 444
+@app.get("/",include_in_schema=False)
+async def root_get():
+    return Response(status_code=444)   
 
-        if bol_docker == "yes":
-            use_static_channels=os.environ['USE_STATIC_CHANNELS']
-            date_range=os.environ['DATE_RANGE']
-            channel_source=os.environ['CHANNEL_SOURCE']
-            icon=os.environ['ICON']
-            tz=os.environ['TZ']
-            file_path="/data/"
-            file_path_xml=file_path+"rogers2xmltv.xml"
-        else:
-            use_static_channels="yes"
-            date_range="1"
-            channel_source="rog_ott_sdh_ch"
-            icon="https://picon-13398.kxcdn.com/rogersca.jpg"
-            tz="Europe/Zurich"
-            file_path=""
-            file_path_xml="rogers2xmltv.xml"
-    else:
-        logger.info("API MODE")
+def main(api_variables):
+
+    logger.info("API_MODE: "+str(API_MODE))
+    if API_MODE:
         use_static_channels=api_variables.use_static_channels
         date_range=api_variables.date_range
         channel_source=api_variables.channel_source
         icon=api_variables.icon
-        tz=api_variables.tz     
+        tz=api_variables.tz  
+    else:
+        use_static_channels=USE_STATIC_CHANNELS
+        date_range=DATE_RANGE
+        channel_source=CHANNEL_SOURCE
+        icon=ICON
+        tz=TZ   
        
-    logger.info("Docker mode: "+str(bol_docker)) 
+    logger.info("DOCKER_MODE: "+str(DOCKER_MODE)) 
 
-    envs =  "Environment variables: \n"
-    envs += "use_static_channels="+use_static_channels+"\n"
-    envs += "date_range="+date_range+"\n"
-    envs += "channel_source="+channel_source+"\n"
-    envs += "icon="+icon+"\n"
-    envs += "file_path="+file_path+"\n"
-    envs += "tz="+tz
+    logger.debug("Print Variables:")
+    logger.debug("use_static_channels="+str(use_static_channels))
+    logger.debug("date_range="+date_range)
+    logger.debug("channel_source="+channel_source)
+    logger.debug("icon="+icon)
+    logger.debug("file_path="+file_path)
+    logger.debug("tz="+tz)
     
-    logger.info(envs)
 
     # URL of the API
-    url = "https://rogerstv.com/api/ssp?f=schedule"
-    logger.info(url)
+    logger.info(URL)
 
     # Get the Data
     logger.info("Start downloading JSON")
-    loader = Loader (url,file_path_xml)  
+    loader = Loader (URL,file_path_xml,SSL_CHECK)  
     logger.info("Finished downloading JSON")
 
     # Extract NHL games out of the response
@@ -123,14 +116,14 @@ def main(api_variables):
     channels=loader.get_channels(games,channel_source)
 
     # Generate static XMLTV-channels based on https://www.rogers.com/customer/support/article/nhl-centre-ice
-    if use_static_channels == 'yes':
+    if use_static_channels:
         logger.info("Create static channel-list")
         mychannels=[]
         for channel in range(450,468):
             mychannel = MyChannel(channel,icon)
             mychannels.append(mychannel)
     # Generate XMLTV-channels from NHL games
-    else :
+    else:
         logger.info("Create dynamic channel-list")
         mychannels=[]
         for channel in channels:
@@ -147,12 +140,14 @@ def main(api_variables):
     # Generate XMLTV-file (putting all together)
     
     #loader.write_xmltv_file(mychannels,mygames)
-    if api_variables is None:
+    
+    if API_MODE:
+        logger.info("Create response")    
+        return loader.api_xmltv_file(mychannels,mygames)
+    else:
         logger.info("Start writing XMLTV-file")
         loader.write_xmltv_file(mychannels,mygames)
-        logger.info("Finished writing XMLTV-file")
-    else:    
-        return loader.api_xmltv_file(mychannels,mygames)
+        logger.info("Finished writing XMLTV-file")    
 
 if __name__ == "__main__":
     main(None)

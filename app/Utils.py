@@ -45,12 +45,13 @@ class Teamnamer:
         }
         return switcher.get(cityname, cityname)
 class Loader:
-    def __init__(self, url,file_path):
+    def __init__(self, url,file_path,ssl_check):
        
         # HTTP Stuff
         payload={}
         headers = {}
-        response = requests.request("GET", url, headers=headers, data=payload)
+        self.ssl_check = ssl_check
+        response = requests.request("GET", url, headers=headers, data=payload,verify=self.ssl_check)
         self.data = response.json()
         self.file_path = file_path
 

@@ -33,7 +33,7 @@ class MyChannel:
 from pydantic import BaseModel
 
 class MyVar(BaseModel):
-    use_static_channels: Optional[str] = "yes"
+    use_static_channels: Optional[bool] = True
     date_range: Optional[str] = "7"
     channel_source: Optional[str] = "rog_ott_sdh_ch"
     icon: Optional[str] = "https://picon-13398.kxcdn.com/rogersca.jpg"

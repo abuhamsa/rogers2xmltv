@@ -13,6 +13,7 @@ docker run \
 -e USE_STATIC_CHANNELS="yes" \
 -v `pwd`/cron/rogers2xmltv.cron:/etc/crontab \
 -v /mnt/user/appdata/rogers2xmltv:/data:rw \
+-p 8000:8000
 --name=rogers2xmltv \
 abuhamsa/rogers2xmltv:latest
 ```
@@ -22,6 +23,8 @@ docker run \
 -d \
 --env-file=.env \
 -v /mnt/user/appdata/rogers2xmltv:/data:rw \
+-v `pwd`/cron/rogers2xmltv.cron:/etc/crontab \
+-p 8000:8000 \
 --name=rogers2xmltv \
 abuhamsa/rogers2xmltv:latest
 ```
@@ -29,6 +32,8 @@ abuhamsa/rogers2xmltv:latest
 ### Environment Variables
 You can change the some defaults be setting environment variables.
 `sample.env` should be renamed to `.env` and supplied through the `--env-file` docker run option. The `.env` file can also be picked up if using this in a `docker compose` setup.
+#### API_MODE
+You can now have it running as a webservice. Just set the API_MODE-Variable to `True` and visit `ip:port/docs` for more details.
 
 ### Cronjob
 The default schedule for the cronjob is set to 02:00:00 AM.

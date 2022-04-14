@@ -6,7 +6,7 @@ env >> /etc/environment
 crontab /etc/crontab
 
 # execute CMD
-if [ "$api_mode" = "yes" ]; then
+if [ "$API_MODE" = True ] || [ "$API_MODE" = true ]; then
     echo "Start with API-MODE"
     uvicorn main:app --host 0.0.0.0 --port 8000
 else

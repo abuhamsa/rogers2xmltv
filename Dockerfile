@@ -6,17 +6,20 @@ FROM ubuntu
 ENV TZ=Europe/Zurich
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# ENV
-ENV USE_STATIC_CHANNELS=yes \
+# ENV for Python App
+ENV USE_STATIC_CHANNELS=True \
     DATE_RANGE=21 \
     CHANNEL_SOURCE=rog_ott_sdh_ch \
     ICON=https://picon-13398.kxcdn.com/rogersca.jpg \
-    use_xTeveAPI=no\
-    xteveURL= \
-    use_plexAPI=no \
-    plexUpdateURL= \
-    DOCKER_MODE=yes \
-    api_mode=no
+    DOCKER_MODE=True \
+    API_MODE=False \
+    URL=https://rogerstv.com/api/ssp?f=schedule
+
+# ENV for Bash Script
+ENV USE_XTEVEAPI=False\
+    XTEVEURL= \
+    USE_PLEXAPI=False \
+    PLEXUPDATEURL=  
 
 # RUN
 RUN apt-get update -y \
