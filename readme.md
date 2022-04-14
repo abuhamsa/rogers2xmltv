@@ -13,7 +13,7 @@ docker run \
 -e USE_STATIC_CHANNELS="yes" \
 -v `pwd`/cron/rogers2xmltv.cron:/etc/crontab \
 -v /mnt/user/appdata/rogers2xmltv:/data:rw \
--p 8000:8000
+-p 8000:8000 \
 --name=rogers2xmltv \
 abuhamsa/rogers2xmltv:latest
 ```
