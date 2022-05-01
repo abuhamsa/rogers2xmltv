@@ -1,6 +1,6 @@
 import datetime
 
-from Utils import Teamnamer
+from app.Utils import Teamnamer
 from pydantic import BaseModel
 from typing import Optional
 
@@ -29,8 +29,6 @@ class MyChannel:
   def print_xmltvchannel (mychannel):
     channel ='<channel id="'+mychannel.id+'"><display-name>Rogers: HD SUPER SPORTS CH '+mychannel.id+' CA</display-name><icon src="'+mychannel.icon+'"></icon></channel>'
     return channel
-
-from pydantic import BaseModel
 
 class MyVar(BaseModel):
     use_static_channels: Optional[bool] = True

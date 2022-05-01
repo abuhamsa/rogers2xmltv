@@ -1,13 +1,11 @@
-from fastapi import FastAPI, Response, status
-
-from Objects import MyVar
-from Objects import MyGame
-from Objects import MyChannel 
-from Utils import Loader
-
 import os
 import logging
 import sys
+from fastapi import FastAPI, Response
+from app.myObjects import MyVar
+from app.myObjects import MyGame
+from app.myObjects import MyChannel 
+from app.Utils import Loader
 
 # Create FastAPI Object
 app = FastAPI()
@@ -16,6 +14,7 @@ app = FastAPI()
 DOCKER_MODE = os.getenv('DOCKER_MODE', 'False').lower() == 'true'
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
 SSL_CHECK = False #Only Setting cause of proxy problems
+
 
 # If in DOCKER_MODE take ENVs from Dockerfile and/or env-parameters
 if DOCKER_MODE:
@@ -26,6 +25,7 @@ if DOCKER_MODE:
     TZ=os.environ['TZ']
     API_MODE=os.getenv('API_MODE', 'False').lower() == 'true'
     URL = os.environ['URL']
+    SCRAPERAPIKEY = os.environ['SCRAPERAPIKEY']
     file_path="/data/"
     file_path_xml=file_path+"rogers2xmltv.xml"
 
@@ -38,6 +38,7 @@ else:
     TZ="Europe/Zurich"
     API_MODE=True
     URL = "https://rogerstv.com/api/ssp?f=schedule"
+    SCRAPERAPIKEY = ""
     file_path=""
     file_path_xml="rogers2xmltv.xml"
 
@@ -105,7 +106,7 @@ def main(api_variables):
 
     # Get the Data
     logger.info("Start downloading JSON")
-    loader = Loader (URL,file_path_xml,SSL_CHECK)  
+    loader = Loader (URL,file_path_xml,SSL_CHECK,SCRAPERAPIKEY)  
     logger.info("Finished downloading JSON")
 
     # Extract NHL games out of the response

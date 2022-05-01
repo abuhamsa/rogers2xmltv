@@ -11,6 +11,7 @@ docker run \
 -e ICON="https://picon-13398.kxcdn.com/rogersca.jpg" \
 -e CHANNEL_SOURCE="rog_ott_sdh_ch" \
 -e USE_STATIC_CHANNELS="yes" \
+-e SCRAPERAPIKEY="yourapikey" \
 -v `pwd`/cron/rogers2xmltv.cron:/etc/crontab \
 -v /mnt/user/appdata/rogers2xmltv:/data:rw \
 -p 8000:8000 \
@@ -29,6 +30,8 @@ docker run \
 abuhamsa/rogers2xmltv:latest
 ```
 ## Setup
+### Get a ScraperAPI-Key
+https://www.scraperapi.com/pricing/ there is a free plan
 ### Environment Variables
 You can change the some defaults be setting environment variables.
 `sample.env` should be renamed to `.env` and supplied through the `--env-file` docker run option. The `.env` file can also be picked up if using this in a `docker compose` setup.

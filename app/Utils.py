@@ -45,13 +45,13 @@ class Teamnamer:
         }
         return switcher.get(cityname, cityname)
 class Loader:
-    def __init__(self, url,file_path,ssl_check):
+    def __init__(self, url,file_path,ssl_check,apikey):
        
         # HTTP Stuff
-        payload={}
+        payload = {'api_key': apikey, 'url':url, 'country_code': 'ca'}
         headers = {}
         self.ssl_check = ssl_check
-        response = requests.request("GET", url, headers=headers, data=payload,verify=self.ssl_check)
+        response = requests.get('http://api.scraperapi.com', params=payload,verify=self.ssl_check)
         self.data = response.json()
         self.file_path = file_path
 
