@@ -1,11 +1,15 @@
 import datetime
 from datetime import date
 from datetime import timedelta
+from multiprocessing import context
 import pytz
 import requests
 import logging
 import sys
 from lxml import etree
+import json
+
+from playwright.sync_api import sync_playwright
 
 class Teamnamer:
     def extend_teamnames (cityname):
@@ -46,14 +50,19 @@ class Teamnamer:
         return switcher.get(cityname, cityname)
 class Loader:
     def __init__(self, url,file_path,ssl_check):
-       
-        # HTTP Stuff
-        payload={}
-        headers = {}
-        self.ssl_check = ssl_check
-        response = requests.request("GET", url, headers=headers, data=payload,verify=self.ssl_check)
-        self.data = response.json()
+        
         self.file_path = file_path
+
+        with sync_playwright() as p:
+            browser = p.webkit.launch(headless=True)
+            page = browser.new_page()
+            page.goto(url,wait_until="networkidle")
+            jsonresponse = page.evaluate('document.querySelector("pre").innerText')
+            browser.close()
+        try:
+            self.data = json.loads(jsonresponse)
+        except:
+            self.data = None
 
     def convert_datetime_timezone(self,dt, tz1, tz2):
         tz1 = pytz.timezone(tz1)
