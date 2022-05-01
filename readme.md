@@ -1,6 +1,9 @@
 # rogers2xmltv - convert rogers api to xmltv
-
 This python-tool provides a simple solution to get a schedule for the rogers [super sports pak](https://supersportspak.com/) and convert it to the [xmltv-format](http://wiki.xmltv.org/index.php/XMLTVFormat).
+
+## ⚠ Rogers is blocking requests from non browser tools from non canadian IP-Adresses ⚠
+Workaround: use an vpn connection to a canadian server
+Goal: setting something up with playwright library to scrap json with non canadian IP-Adresses.
 
 ## Run
 ```
