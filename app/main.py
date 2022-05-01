@@ -2,10 +2,10 @@ import os
 import logging
 import sys
 from fastapi import FastAPI, Response
-from app.myObjects import MyVar
-from app.myObjects import MyGame
-from app.myObjects import MyChannel 
-from app.Utils import Loader
+from myObjects import MyVar
+from myObjects import MyGame
+from myObjects import MyChannel 
+from Utils import Loader
 
 # Create FastAPI Object
 app = FastAPI()

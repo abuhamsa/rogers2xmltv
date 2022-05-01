@@ -1,6 +1,6 @@
 import datetime
 
-from app.Utils import Teamnamer
+from Utils import Teamnamer
 from pydantic import BaseModel
 from typing import Optional
 
