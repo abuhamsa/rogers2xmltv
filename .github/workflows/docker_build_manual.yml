@@ -1,4 +1,4 @@
-name: Publish to DockerHub/GitHub with a custom-tag
+name: custom-tag publish image
 on:
   workflow_dispatch:
     inputs:

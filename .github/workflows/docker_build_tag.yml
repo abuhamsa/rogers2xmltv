@@ -1,4 +1,4 @@
-name: Publish to DockerHub/GitHub with a verstion-tag and latest-tag
+name: publish to DockerHub/GitHub with a verstion-tag and latest-tag
 on:    
   release:
       types: [published]

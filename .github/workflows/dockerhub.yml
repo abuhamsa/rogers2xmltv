@@ -1,4 +1,4 @@
-name: Publish to DockerHub/GitHub with a custom-tag
+name: update dockerhub readme
 on:
   workflow_dispatch:
     inputs:
