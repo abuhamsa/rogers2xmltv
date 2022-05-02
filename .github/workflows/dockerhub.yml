@@ -1,0 +1,19 @@
+name: Publish to DockerHub/GitHub with a custom-tag
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Name your tag
+        default: test
+        required: true  
+jobs:
+  update-dh:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Docker Hub Description
+      uses: peter-evans/dockerhub-description@v2
+      env:
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKERHUB_REPOSITORY: peterevans/dockerhub-description               
