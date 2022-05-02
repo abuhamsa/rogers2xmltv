@@ -45,12 +45,13 @@ class Teamnamer:
         }
         return switcher.get(cityname, cityname)
 class Loader:
-    def __init__(self, url,file_path):
+    def __init__(self, url,file_path,ssl_check,apikey):
        
         # HTTP Stuff
-        payload={}
+        payload = {'api_key': apikey, 'url':url, 'country_code': 'ca'}
         headers = {}
-        response = requests.request("GET", url, headers=headers, data=payload)
+        self.ssl_check = ssl_check
+        response = requests.get('http://api.scraperapi.com', params=payload,verify=self.ssl_check)
         self.data = response.json()
         self.file_path = file_path
 
@@ -106,3 +107,13 @@ class Loader:
         root = etree.fromstring(str_xml)
         et = etree.ElementTree(root)
         et.write(self.file_path,pretty_print=True)
+
+    def api_xmltv_file (self,mychannels, mygames):
+        str_xml ='<tv generator-info-name="rogers2xmltv" source-info-name="rogers2xmltv by abuhamsa">'
+        for mychannel in mychannels:
+            str_xml+=mychannel.print_xmltvchannel()
+        for mygame in mygames:
+            str_xml+=mygame.print_xmltvprogramme()
+        str_xml+='</tv>'
+        root = etree.fromstring(str_xml)
+        return etree.tostring(root,pretty_print=True)        

@@ -1,6 +1,8 @@
 import datetime
 
 from Utils import Teamnamer
+from pydantic import BaseModel
+from typing import Optional
 
 class MyGame:
   def __init__(self, game, channel_source):
@@ -28,4 +30,9 @@ class MyChannel:
     channel ='<channel id="'+mychannel.id+'"><display-name>Rogers: HD SUPER SPORTS CH '+mychannel.id+' CA</display-name><icon src="'+mychannel.icon+'"></icon></channel>'
     return channel
 
-
+class MyVar(BaseModel):
+    use_static_channels: Optional[bool] = True
+    date_range: Optional[str] = "7"
+    channel_source: Optional[str] = "rog_ott_sdh_ch"
+    icon: Optional[str] = "https://picon-13398.kxcdn.com/rogersca.jpg"
+    tz: Optional[str] = "Europe/Zurich"
