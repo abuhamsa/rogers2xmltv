@@ -42,8 +42,8 @@
       <Mode/>
     </Variable>
     <Variable>
-      <Value>yes</Value>
-      <Name>use_xTeveAPI</Name>
+      <Value>True</Value>
+      <Name>USE_XTEVEAPI</Name>
       <Mode/>
     </Variable>
     <Variable>
@@ -62,37 +62,48 @@
       <Mode/>
     </Variable>
     <Variable>
-      <Value>yes</Value>
+      <Value>True</Value>
       <Name>USE_STATIC_CHANNELS</Name>
       <Mode/>
     </Variable>
     <Variable>
       <Value/>
-      <Name>xteveURL</Name>
+      <Name>XTEVEURL</Name>
       <Mode/>
     </Variable>
     <Variable>
-      <Value>yes</Value>
-      <Name>use_plexAPI</Name>
+      <Value>False</Value>
+      <Name>USE_PLEXAPI</Name>
       <Mode/>
     </Variable>
     <Variable>
       <Value/>
-      <Name>plexUpdateURL</Name>
+      <Name>PLEXUPDATEURL</Name>
       <Mode/>
     </Variable>
-
+    <Variable>
+      <Value>False</Value>
+      <Name>API_MODE</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value/>
+      <Name>SCRAPERAPIKEY</Name>
+      <Mode/>
+    </Variable>    
   </Environment>
   <Labels/>
   <Config Name="TZ" Target="TZ" Default="" Mode="" Description="Timezone" Type="Variable" Display="always" Required="false" Mask="false">Europe/Zurich</Config>
   <Config Name="Path" Target="/data" Default="" Mode="rw" Description="Container Path: /data" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rogers2xmltv/data</Config>
   <Config Name="Path" Target="/etc/crontab" Default="" Mode="rw" Description="Container Path: /etc/crontab" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rogers2xmltv/rogers2xmltv.cron</Config>
-  <Config Name="use_xTeveAPI" Target="use_xTeveAPI" Default="yes" Mode="" Description="Container Variable: use_xTeveAPI" Type="Variable" Display="always" Required="false" Mask="false">yes</Config>
+  <Config Name="USE_XTEVEAPI" Target="USE_XTEVEAPI" Default="True" Mode="" Description="Container Variable: USE_XTEVEAPI" Type="Variable" Display="always" Required="false" Mask="false">True</Config>
   <Config Name="DATE_RANGE" Target="DATE_RANGE" Default="21" Mode="" Description="Container Variable: DATE_RANGE" Type="Variable" Display="always" Required="false" Mask="false">21</Config>
   <Config Name="ICON" Target="ICON" Default="https://picon-13398.kxcdn.com/rogersca.jpg" Mode="" Description="Container Variable: ICON" Type="Variable" Display="always" Required="false" Mask="false">https://picon-13398.kxcdn.com/rogersca.jpg</Config>
   <Config Name="CHANNEL_SOURCE" Target="CHANNEL_SOURCE" Default="rog_ott_sdh_ch" Mode="" Description="Container Variable: CHANNEL_SOURCE" Type="Variable" Display="always" Required="false" Mask="false">rog_ott_sdh_ch</Config>
-  <Config Name="USE_STATIC_CHANNELS" Target="USE_STATIC_CHANNELS" Default="yes" Mode="" Description="Container Variable: USE_STATIC_CHANNELS" Type="Variable" Display="always" Required="false" Mask="false">yes</Config>
-  <Config Name="xteveURL" Target="xteveURL" Default="" Mode="" Description="Container Variable: xteveURL" Type="Variable" Display="always" Required="false" Mask="false"/>
-  <Config Name="use_plexAPI" Target="use_plexAPI" Default="no" Mode="" Description="Container Variable: use_plexAPI" Type="Variable" Display="always" Required="false" Mask="false">no</Config>
-  <Config Name="plexUpdateURL" Target="plexUpdateURL" Default="" Mode="" Description="Container Variable: plexUpdateURL" Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="USE_STATIC_CHANNELS" Target="USE_STATIC_CHANNELS" Default="True" Mode="" Description="Container Variable: USE_STATIC_CHANNELS" Type="Variable" Display="always" Required="false" Mask="false">True</Config>
+  <Config Name="XTEVEURL" Target="XTEVEURL" Default="" Mode="" Description="Container Variable: XTEVEURL" Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="USE_PLEXAPI" Target="USE_PLEXAPI" Default="False" Mode="" Description="Container Variable: USE_PLEXAPI" Type="Variable" Display="always" Required="false" Mask="false">False</Config>
+  <Config Name="PLEXUPDATEURL" Target="PLEXUPDATEURL" Default="" Mode="" Description="Container Variable: PLEXUPDATEURL" Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="API_MODE" Target="API_MODE" Default="False" Mode="" Description="Container Variable: API_MODE" Type="Variable" Display="always" Required="false" Mask="false">False</Config>
+  <Config Name="SCRAPERAPIKEY" Target="SCRAPERAPIKEY" Default="" Mode="" Description="Container Variable: SCRAPERAPIKEY" Type="Variable" Display="always" Required="false" Mask="false"/>
 </Container>
