@@ -1,9 +1,8 @@
 # rogers2xmltv - convert rogers api to xmltv
 This python-tool provides a simple solution to get a schedule for the rogers [super sports pak](https://supersportspak.com/) and convert it to the [xmltv-format](http://wiki.xmltv.org/index.php/XMLTVFormat).
 
-## ⚠ Rogers is blocking requests from non browser tools from non canadian IP-Adresses ⚠
-- Workaround: use an vpn connection to a canadian server
-- Goal: setting something up with playwright library to scrap json with non canadian IP-Adresses.
+### ⚠ Rogers is blocking requests from non browser tools from non canadian IP-Adresses ⚠
+- Solution: we use a scraper service with location feature -> scraperapi.com
 
 ## Run
 ```
@@ -33,8 +32,9 @@ docker run \
 abuhamsa/rogers2xmltv:latest
 ```
 ## Setup
-### Get a ScraperAPI-Key
-https://www.scraperapi.com/pricing/ there is a free plan
+### ScraperAPI-Key
+- Get a ScraperAPI-Key https://www.scraperapi.com/pricing/ there is a free plan
+- Use it in your envirnoment variables
 ### Environment Variables
 You can change the some defaults be setting environment variables.
 `sample.env` should be renamed to `.env` and supplied through the `--env-file` docker run option. The `.env` file can also be picked up if using this in a `docker compose` setup.
