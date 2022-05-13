@@ -6,6 +6,8 @@ import requests
 import logging
 import sys
 from lxml import etree
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 class Teamnamer:
     def extend_teamnames (cityname):
@@ -48,10 +50,22 @@ class Loader:
     def __init__(self, url,file_path,ssl_check,apikey):
        
         # HTTP Stuff
+        retry_strategy = Retry(
+            total=3,
+            backoff_factor=1,
+            status_forcelist=[429, 500, 502, 503, 504],
+            method_whitelist=["HEAD", "GET", "OPTIONS"]
+        )
+
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        http = requests.Session()
+        http.mount("https://", adapter)
+        http.mount("http://", adapter)
+
         payload = {'api_key': apikey, 'url':url, 'country_code': 'ca'}
         headers = {}
         self.ssl_check = ssl_check
-        response = requests.get('http://api.scraperapi.com', params=payload,verify=self.ssl_check)
+        response = http.get('http://api.scraperapi.com', params=payload,verify=self.ssl_check)
         self.data = response.json()
         self.file_path = file_path
 

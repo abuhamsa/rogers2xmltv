@@ -36,7 +36,7 @@ else:
     CHANNEL_SOURCE="rog_ott_sdh_ch"
     ICON="https://picon-13398.kxcdn.com/rogersca.jpg"
     TZ="Europe/Zurich"
-    API_MODE=True
+    API_MODE=False
     URL = "https://rogerstv.com/api/ssp?f=schedule"
     SCRAPERAPIKEY = ""
     file_path=""
