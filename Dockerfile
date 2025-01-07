@@ -24,14 +24,16 @@ ENV USE_XTEVEAPI=False\
 # RUN
 RUN apt-get update -y \
 ### install basic packages
-&& apt-get install -qy python3-pip tzdata cron python-is-python3 curl nano
+&& apt-get install -qy python3-pip tzdata cron python-is-python3 curl nano python3-venv
 # Setup cron
 RUN which cron \
 && rm -rf /etc/cron.*/* 
 
-# Install pip depenencies
-RUN pip3 install requests pytz lxml fastapi uvicorn[standard]
+RUN python3 -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
 
+# Install pip depenencies
+RUN pip3 install requests pytz lxml fastapi uvicorn[standard] 
 
 
 # COPY Scripts
