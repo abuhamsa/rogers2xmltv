@@ -37,7 +37,7 @@ else:
     ICON="https://picon-13398.kxcdn.com/rogersca.jpg"
     TZ="Europe/Zurich"
     API_MODE=False
-    URL = "https://rogerstv.com/api/ssp?f=schedule"
+    URL = "https://output.webupdates.tv/api/ssp?f=schedule"
     SCRAPERAPIKEY = ""
     file_path=""
     file_path_xml="rogers2xmltv.xml"

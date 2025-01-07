@@ -3,3 +3,4 @@ rogers2xmltv.xml
 app/__pycache__
 app/test.py
 rogers2xmltv.log
+.vscode/
