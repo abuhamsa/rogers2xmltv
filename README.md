@@ -1,3 +1,5 @@
+# ARCHIVED BECAUSE SUPERSPORTSPAK DOES NOT WORK ANYMORE THE API DOES NOT DELIVER NHL DATA
+
 # rogers2xmltv - convert rogers api to xmltv
 This python-tool provides a simple solution to get a schedule for the rogers [super sports pak](https://supersportspak.com/) and convert it to the [xmltv-format](http://wiki.xmltv.org/index.php/XMLTVFormat).
 
